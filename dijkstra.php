@@ -26,7 +26,8 @@ class Dijkstra{
 
     public function search(){
         $node = $this->findTheLowestCostedNode($this->costs);#b/a
-        while ($node != null){
+        
+        while ($node != 'fin'){
             $cost = $this->costs[$node];#2/3
             $neighbors = $this->graph[$node];#a - fin/fin
 
@@ -36,17 +37,20 @@ class Dijkstra{
                     $this->costs[$neighbor] = $new_cost;#a - 5
                     $this->parents[$neighbor] = $node;#a - b
                 }
-                array_unshift($this->processed,$node);#b //a
+                array_push($this->processed,$node);#b //a
                 $node = $this->findTheLowestCostedNode($this->costs);#a
             }
         }
-        // print_r($this->processed);
-        // echo 'done';
+        echo 'i moved from ';
+        foreach ($this->processed as $node){
+            echo $node . ' then ';
+        }
+        echo 'finish';
     }
 
     public function findTheLowestCostedNode($costs){
         $the_lowest_cost = INF;
-        $lowest_costed_node = null;
+        $lowest_costed_node = 'fin';
         foreach ($costs as $node => $cost){
             if($cost < $the_lowest_cost && !(is_int(array_search($node,$this->processed)))){
                 $the_lowest_cost = $cost;#5
